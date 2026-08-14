@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "fl/stl/bit_cast.h"
 #include "fl/stl/compiler_control.h"
 #include "fl/stl/noexcept.h"
 #include "fl/stl/stdint.h"
@@ -56,7 +55,11 @@ public:
     FASTLED_FORCE_INLINE static port_t hival() FL_NO_EXCEPT { return 0xFFU; }
     FASTLED_FORCE_INLINE static port_t loval() FL_NO_EXCEPT { return 0U; }
     FASTLED_FORCE_INLINE static port_ptr_t port() FL_NO_EXCEPT {
-        return fl::bit_cast<port_ptr_t>(
+        // This is a fixed MMIO address, not object storage that needs
+        // type-punning.  Keep the conversion in the caller so each WS2812
+        // edge compiles to a single store; fl::bit_cast() can remain an
+        // out-of-line memcpy call under GCC 9.2 -Os and consume most of T0H.
+        return reinterpret_cast<port_ptr_t>(
             PORT_BASE + ((static_cast<uptr>(1U) << BIT) * sizeof(u32)));
     }
     FASTLED_FORCE_INLINE static port_t mask() FL_NO_EXCEPT { return 0xFFU; }
