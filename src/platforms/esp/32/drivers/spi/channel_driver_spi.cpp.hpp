@@ -102,7 +102,7 @@ namespace {
 ///   - ESP32-S2/S3/C3/C6/H2: FSPID_OUT_IDX (for SPI2_HOST/FSPI)
 ///   - ESP32 original: HSPID_OUT_IDX, VSPID_OUT_IDX
 inline int getSpiMosiSignalIndex(spi_host_device_t host) FL_NO_EXCEPT {
-#if defined(FL_IS_ESP_32P4)
+#if defined(FL_IS_ESP_32P4) || defined(FL_IS_ESP_32S31)  // aily patch: S31 uses the P4 signal names
     // ESP32-P4: Use SPI2_D_PAD_OUT_IDX or SPI3_D_PAD_OUT_IDX
     if (host == SPI2_HOST) {
         return SPI2_D_PAD_OUT_IDX;

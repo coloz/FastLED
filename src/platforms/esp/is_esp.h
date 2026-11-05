@@ -25,6 +25,7 @@
 /// - FL_IS_ESP_32C6: ESP32-C6 (RISC-V)
 /// - FL_IS_ESP_32H2: ESP32-H2 (RISC-V)
 /// - FL_IS_ESP_32P4: ESP32-P4 (dual-core RISC-V)
+/// - FL_IS_ESP_32S31: ESP32-S31 (dual-core RISC-V)
 /// - FL_IS_ESP32_XTENSA: ESP32 with Xtensa cores
 /// - FL_IS_ESP32_RISCV: ESP32 with RISC-V cores
 /// - FL_IS_IDF_4_OR_HIGHER: ESP-IDF 4.x or higher
@@ -106,6 +107,12 @@
 // FL_IS_ESP_32P4 - ESP32-P4 (dual-core RISC-V)
 #if defined(CONFIG_IDF_TARGET_ESP32P4)
 #define FL_IS_ESP_32P4
+#endif
+
+// FL_IS_ESP_32S31 - ESP32-S31 (RISC-V, Arduino-ESP32 4.x / IDF 6)
+// aily patch: no classic ESP32 I2S peripheral; LEDs go through the RMT5 driver
+#if defined(CONFIG_IDF_TARGET_ESP32S31)
+#define FL_IS_ESP_32S31
 #endif
 
 // ============================================================================

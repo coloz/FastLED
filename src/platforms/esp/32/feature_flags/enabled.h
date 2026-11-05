@@ -104,7 +104,8 @@ FL_EXTERN_C_END
 // Helper macro: Platforms that ONLY support RMT5 (no RMT4 fallback)
 // These chips have newer RMT architecture incompatible with legacy RMT4 driver
 #if defined(FL_IS_ESP_32C6) || defined(FL_IS_ESP_32C5) || \
-    defined(CONFIG_IDF_TARGET_ESP32P4) || defined(CONFIG_IDF_TARGET_ESP32H2)
+    defined(CONFIG_IDF_TARGET_ESP32P4) || defined(CONFIG_IDF_TARGET_ESP32H2) || \
+    defined(FL_IS_ESP_32S31)  // aily patch: S31 SDK (IDF 6) has no legacy driver/rmt.h
 #define FASTLED_ESP32_RMT5_ONLY_PLATFORM 1
 #else
 #define FASTLED_ESP32_RMT5_ONLY_PLATFORM 0
@@ -131,7 +132,11 @@ FL_EXTERN_C_END
 // PARLIO requires ESP-IDF 5.0+ and hardware support (ESP32-P4, C6, H2, C5)
 // Note: ESP32-S3 does NOT have PARLIO hardware (it has LCD peripheral instead)
 #if !defined(FASTLED_ESP32_HAS_PARLIO)
-#if ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0)
+#if defined(FL_IS_ESP_32S31)
+// aily patch: the S31 has PARLIO, but FastLED's PARLIO driver (priority 4, above RMT) is only
+// tuned for P4/C6/H2/C5 and gives no output on the S31; leave it off so clockless LEDs use RMT
+#define FASTLED_ESP32_HAS_PARLIO 0
+#elif ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(5, 0, 0)
 #define FASTLED_ESP32_HAS_PARLIO SOC_PARLIO_SUPPORTED
 #else
 #define FASTLED_ESP32_HAS_PARLIO 0  // Requires ESP-IDF 5.0+
@@ -193,7 +198,7 @@ FL_EXTERN_C_END
 // is tracked in FastLED#3509 Phase 7.
 // Users can override with -D FASTLED_ESP32_HAS_I2S=0 to disable.
 #if !defined(FASTLED_ESP32_HAS_I2S)
-#if defined(FL_IS_ESP32) && !defined(FL_IS_ESP_32S2) && !defined(FL_IS_ESP_32S3) && !defined(FL_IS_ESP_32C2) && !defined(FL_IS_ESP_32C3) && !defined(FL_IS_ESP_32C5) && !defined(FL_IS_ESP_32C6) && !defined(FL_IS_ESP_32H2) && !defined(FL_IS_ESP_32P4)
+#if defined(FL_IS_ESP32) && !defined(FL_IS_ESP_32S2) && !defined(FL_IS_ESP_32S3) && !defined(FL_IS_ESP_32C2) && !defined(FL_IS_ESP_32C3) && !defined(FL_IS_ESP_32C5) && !defined(FL_IS_ESP_32C6) && !defined(FL_IS_ESP_32H2) && !defined(FL_IS_ESP_32P4) && !defined(FL_IS_ESP_32S31)
 #define FASTLED_ESP32_HAS_I2S 1
 #else
 #define FASTLED_ESP32_HAS_I2S 0

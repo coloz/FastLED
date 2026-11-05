@@ -16,7 +16,8 @@
 
 #if defined(FL_IS_ESP_32C2) || defined(FL_IS_ESP_32C3) || \
     defined(CONFIG_IDF_TARGET_ESP32C5) || defined(CONFIG_IDF_TARGET_ESP32C6) || \
-    defined(CONFIG_IDF_TARGET_ESP32H2) || defined(CONFIG_IDF_TARGET_ESP32P4)
+    defined(CONFIG_IDF_TARGET_ESP32H2) || defined(CONFIG_IDF_TARGET_ESP32P4) || \
+    defined(CONFIG_IDF_TARGET_ESP32S31)  // aily patch: S31 -march has xespv, not xesppie, so PIE stays off (scalar)
 
 #include "fl/stl/has_include.h"
 #include "fl/stl/align.h"
