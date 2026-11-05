@@ -90,7 +90,7 @@ namespace fl {
 	// I *think* we have to "fake" being FSPI... there might be a better way to do this.
 	// whatever the case, this "tricks" the pin assignment defines below into using DATA_PIN & CLOCK_PIN
 	#define FASTLED_ESP32_SPI_BUS FSPI
-#elif defined(FL_IS_ESP_32P4)
+#elif defined(FL_IS_ESP_32P4) || defined(FL_IS_ESP_32S31)  // aily patch: S31 has FSPI/HSPI, no VSPI
 	// #pragma message "Targeting ESP32P4, which has flexible SPI support. Configuring for flexible pin assignment."
 	#undef FASTLED_ESP32_SPI_BUS
 	#define FASTLED_ESP32_SPI_BUS FSPI

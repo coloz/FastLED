@@ -22,7 +22,8 @@
     // RISC-V-based ESP32 variants (C2, C3, C5, C6, H2, P4)
     #if defined(FL_IS_ESP_32C2) || defined(FL_IS_ESP_32C3) || \
         defined(FL_IS_ESP_32C5) || defined(FL_IS_ESP_32C6) || \
-        defined(FL_IS_ESP_32H2) || defined(FL_IS_ESP_32P4)
+        defined(FL_IS_ESP_32H2) || defined(FL_IS_ESP_32P4) || \
+        defined(FL_IS_ESP_32S31)  // aily patch: S31 is RISC-V too
         // Known RISC-V variants: scalar loops (no SIMD hardware), RVV-ready
         #include "platforms/esp/32/simd_riscv.hpp"
     #else

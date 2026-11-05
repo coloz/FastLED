@@ -89,7 +89,7 @@ bool install_direct_gpio_isr(int gpio_num, void* isr_context, intr_handle_t* int
     // Step 1: Determine GPIO interrupt source
     // ESP32-P4 has per-CPU GPIO interrupt sources (ETS_GPIO_INTR0_SOURCE..3)
     // instead of a single ETS_GPIO_INTR_SOURCE.
-#if defined(FL_IS_ESP_32P4)
+#if defined(FL_IS_ESP_32P4) || defined(FL_IS_ESP_32S31)  // aily patch: S31 also has per-CPU GPIO sources
     int intr_source = ETS_GPIO_INTR0_SOURCE;
 #else
     int intr_source = ETS_GPIO_INTR_SOURCE;
